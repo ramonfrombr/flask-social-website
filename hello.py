@@ -1,15 +1,14 @@
-from flask import Flask, request, make_response, redirect, abort
+from flask import Flask, request, make_response, redirect, abort, render_template
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-  user_agent = request.headers.get('User-Agent')
-  return '<h1>Hello World! You browser is {}</h1>'.format(user_agent)
+  return render_template('index.html')
 
 @app.route('/user/<name>')
 def user(name):
-  return '<h1>Hello, {}!'.format(name)
+  return render_template('user.html', name=name)
 
 @app.route('/bad_request')
 def bad_request():
