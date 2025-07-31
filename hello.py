@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+app.config['SECRET_KEY'] = 'secret'
 
 @app.route('/')
 def index():
