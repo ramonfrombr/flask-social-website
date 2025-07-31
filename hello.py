@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, redirect
+from flask import Flask, request, make_response, redirect, abort
 
 app = Flask(__name__)
 
@@ -24,6 +24,13 @@ def make_response_route():
 @app.route('/redirect_to_home')
 def redirect_to_home():
   return redirect('/')
+
+@app.route('/odd_numbers/<int:number>')
+def odd_numbers(number):
+  list_of_numbers = [1, 3, 5, 7, 9]
+  if number not in list_of_numbers:
+    abort(404)
+  return '<h1>The number {} is included in {}.</h1>'.format(number, list_of_numbers)
 
 if __name__ == '__main__':
   app.run()
