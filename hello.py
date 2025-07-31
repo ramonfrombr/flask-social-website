@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, redirect
 
 app = Flask(__name__)
 
@@ -20,6 +20,10 @@ def make_response_route():
   response = make_response('<h1>This document carries a cookie!</h1>')
   response.set_cookie('answer', '42')
   return response
+
+@app.route('/redirect_to_home')
+def redirect_to_home():
+  return redirect('/')
 
 if __name__ == '__main__':
   app.run()
