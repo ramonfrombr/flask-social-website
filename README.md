@@ -23,3 +23,7 @@ Marks an existing database as upgraded (use it if `flask db upgrade` fails for s
 Removes the last migration from the database.
 
 `flask db downgrade`
+
+## Improvements
+
+- [ ] Implement Celery task queue to send batch emails.

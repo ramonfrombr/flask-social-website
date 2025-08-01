@@ -1,0 +1,3 @@
+New User
+
+A new user called {{ user.username }} has registered.
