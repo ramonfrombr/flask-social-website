@@ -39,7 +39,7 @@ class User(UserMixin, db.Model):
 
   def generate_confirmation_token(self):
     s = Serializer(current_app.config['SECRET_KEY'])
-    return s.dumps({'confirm': self.id}).decode('utf-8')
+    return s.dumps({'confirm': self.id})
 
   def confirm(self, token, expiration=3600):
     s = Serializer(current_app.config['SECRET_KEY'])
