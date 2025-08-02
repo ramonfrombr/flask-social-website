@@ -8,8 +8,8 @@ class Config:
   MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
   MAIL_USERNAME  = os.environ.get('MAIL_USERNAME')
   MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-  APP_MAIL_SUBJECT_PREFIX = '[Social Website]'
-  APP_MAIL_SENDER = 'Social Website Admin admin@socialwebsite.com'
+  MAIL_SUBJECT_PREFIX = '[Social Website] '
+  MAIL_SENDER = os.environ.get('MAIL_SENDER')
   APP_ADMIN = os.environ.get('APP_ADMIN')
   SQLALCHEMY_TRACK_MODIFICATIONS = False
 
