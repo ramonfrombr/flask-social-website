@@ -4,6 +4,14 @@ This is a social media application built with Flask.
 
 ## Useful Commands
 
+Lists the dependencies in a file called `requirements.txt`.
+
+`pip freeze > requirements.txt`
+
+Installs dependencies listed in `requirements.txt`.
+
+`pip install -r requirements.txt`
+
 Add support for database migrations.
 
 `flask db init`
@@ -23,6 +31,10 @@ Marks an existing database as upgraded (use it if `flask db upgrade` fails for s
 Removes the last migration from the database.
 
 `flask db downgrade`
+
+Executes unit tests.
+
+`flask test`
 
 ## Improvements
 
