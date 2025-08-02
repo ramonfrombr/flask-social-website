@@ -1,10 +1,12 @@
 from datetime import datetime, timezone
-from flask import  render_template, session, redirect, url_for, current_app
+from flask import render_template, session, redirect, url_for, current_app
 from . import main
 from .forms import NameForm
 from .. import db
 from ..models import User
 from ..email import send_email
+from flask_login import login_required
+
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -17,16 +19,23 @@ def index():
       db.session.commit()
       session['known'] = False
       if current_app.config['APP_ADMIN']:
-        send_email(current_app.config['APP_ADMIN'], 'New User', 'mail/new_user', user=user)
+        send_email(current_app.config['APP_ADMIN'],
+                   'New User', 'mail/new_user', user=user)
     else:
       session['known'] = True
     session['name'] = form.name.data
     form.name.data = ''
     return redirect(url_for('.index'))
   return render_template(
-    'index.html',
-    form=form,
-    name=session.get('name'),
-    known=session.get('known', False),
-    current_time=datetime.now(timezone.utc)
+      'index.html',
+      form=form,
+      name=session.get('name'),
+      known=session.get('known', False),
+      current_time=datetime.now(timezone.utc)
   )
+
+
+@main.route('/secret')
+@login_required
+def secret():
+  return 'Only authenticated users are allowed!'

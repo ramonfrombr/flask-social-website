@@ -32,6 +32,10 @@ Removes the last migration from the database.
 
 `flask db downgrade`
 
+List the history of migrations.
+
+`flask db history`
+
 Executes unit tests.
 
 `flask test`
