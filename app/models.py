@@ -164,6 +164,11 @@ class User(UserMixin, db.Model):
   def is_administrator(self):
     return self.can(Permission.ADMIN)
 
+  def ping(self):
+    self.last_seen = datetime.now(timezone.utc)
+    db.session.add(self)
+    db.session.commit()
+
   def __repr__(self):
     return '<User %r>' % self.username
 
