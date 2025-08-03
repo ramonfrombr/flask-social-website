@@ -1,9 +1,11 @@
 from datetime import datetime, timezone
 from flask import render_template, session, redirect, url_for, current_app
+
+from app.decorators import admin_required, permission_required
 from . import main
 from .forms import NameForm
 from .. import db
-from ..models import User
+from ..models import Permission, User
 from ..email import send_email
 from flask_login import login_required
 
@@ -39,3 +41,17 @@ def index():
 @login_required
 def secret():
   return 'Only authenticated users are allowed!'
+
+
+@main.route('/admin')
+@login_required
+@admin_required
+def for_admins_only():
+  return 'For administrators!'
+
+
+@main.route('/moderate')
+@login_required
+@permission_required(Permission.MODERATE)
+def for_moderators_only():
+  return 'For comment moderators!'
