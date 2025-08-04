@@ -3,16 +3,23 @@ from flask import flash, render_template, session, redirect, url_for, current_ap
 
 from app.decorators import admin_required, permission_required
 from . import main
-from .forms import EditProfileAdminForm, EditProfileForm
+from .forms import EditProfileAdminForm, EditProfileForm, PostForm
 from .. import db
-from ..models import Permission, Role, User
+from ..models import Permission, Post, Role, User
 from ..email import send_email
 from flask_login import login_required, current_user
 
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-  return render_template('index.html')
+  form = PostForm()
+  if current_user.can(Permission.WRITE) and form.validate_on_submit():
+    post = Post(body=form.body.data, author=current_user._get_current_object())
+    db.session.add(post)
+    db.session.commit()
+    return redirect(url_for('.index'))
+  posts = Post.query.order_by(Post.timestamp.desc()).all()
+  return render_template('index.html', form=form, posts=posts)
 
 
 @main.route('/secret')
