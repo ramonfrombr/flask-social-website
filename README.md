@@ -43,3 +43,4 @@ Executes unit tests.
 ## Improvements
 
 - [ ] Implement Celery task queue to send batch emails.
+- [ ] Implement markdown support for <pre> tag
