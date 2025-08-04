@@ -7,6 +7,10 @@
     href="{{ url_for('static', filename='favicon.ico') }}"
     type="image/x-icon"
   />
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles.css') }}"
+  />
 {% endblock %}
 
 {% block scripts %}
@@ -41,12 +45,21 @@
           <li>
             <a href="/">Home</a>
           </li>
+          {% if current_user.is_authenticated %}
+            <li>
+              <a
+                href="{{ url_for('main.user', username=current_user.username) }}"
+                >Profile</a
+              >
+            </li>
+          {% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if current_user.is_authenticated %}
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                >Account <b class="caret"></b
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="{{ current_user.gravatar(size=18) }}" />
+                Account <b class="caret"></b
               ></a>
               <ul class="dropdown-menu">
                 <li>
