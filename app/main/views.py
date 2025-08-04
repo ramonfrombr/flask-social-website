@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from flask import flash, render_template, session, redirect, url_for, current_app
+from flask import abort, flash, render_template, session, redirect, url_for, current_app
 
 from app.decorators import admin_required, permission_required
 from . import main
@@ -44,8 +44,11 @@ def for_moderators_only():
 
 @main.route('/user/<username>')
 def user(username):
-  user = User.query.filter_by(username=username).first_or_404()
-  return render_template('user.html', user=user)
+  user = User.query.filter_by(username=username).first()
+  if user is None:
+    abort(404)
+  posts = user.posts.order_by(Post.timestamp.desc()).all()
+  return render_template('user.html', user=user, posts=posts)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])
