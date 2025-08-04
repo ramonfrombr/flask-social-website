@@ -82,6 +82,7 @@ class User(UserMixin, db.Model):
   last_seen = db.Column(
       db.DateTime(), default=lambda: datetime.now(timezone.utc))
   avatar_hash = db.Column(db.String(32))
+  posts = db.relationship('Post', backref='author', lazy='dynamic')
 
   def __init__(self, **kwargs):
     super(User, self).__init__(**kwargs)
@@ -185,6 +186,15 @@ class User(UserMixin, db.Model):
 
   def __repr__(self):
     return '<User %r>' % self.username
+
+
+class Post(db.Model):
+  __tablename__ = 'posts'
+  id = db.Column(db.Integer, primary_key=True)
+  body = db.Column(db.Text)
+  timestamp = db.Column(db.DateTime, index=True,
+                        default=lambda: datetime.now(timezone.utc))
+  author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
 class AnonymousUser(AnonymousUserMixin):
