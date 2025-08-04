@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from flask import abort, flash, render_template, session, redirect, url_for, current_app
+from flask import abort, flash, render_template, session, redirect, url_for, current_app, request
 
 from app.decorators import admin_required, permission_required
 from . import main
@@ -18,8 +18,12 @@ def index():
     db.session.add(post)
     db.session.commit()
     return redirect(url_for('.index'))
-  posts = Post.query.order_by(Post.timestamp.desc()).all()
-  return render_template('index.html', form=form, posts=posts)
+  page = request.args.get('page', 1, type=int)
+  pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+      page=page, per_page=current_app.config['APP_POSTS_PER_PAGE'],
+      error_out=False)
+  posts = pagination.items
+  return render_template('index.html', form=form, posts=posts, pagination=pagination)
 
 
 @main.route('/secret')
