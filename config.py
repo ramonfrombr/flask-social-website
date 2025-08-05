@@ -11,9 +11,9 @@ class Config:
   MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
   MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
   MAIL_SUBJECT_PREFIX = '[Social Website] '
-  MAIL_SENDER = os.environ.get('MAIL_SENDER')
   APP_ADMIN = os.environ.get('APP_ADMIN')
-  APP_POSTS_PER_PAGE = os.environ.get('APP_POSTS_PER_PAGE')
+  MAIL_SENDER = os.environ.get('MAIL_SENDER')
+  APP_POSTS_PER_PAGE = 20
   APP_FOLLOWERS_PER_PAGE = 20
   SQLALCHEMY_TRACK_MODIFICATIONS = False
 

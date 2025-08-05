@@ -96,6 +96,12 @@ class User(UserMixin, db.Model):
                               lazy='dynamic',
                               cascade='all, delete-orphan')
 
+  @property
+  def followed_posts(self):
+    return Post.query.join(
+        Follow, Follow.followed_id == Post.author_id
+    ).filter(Follow.follower_id == self.id)
+
   def __init__(self, **kwargs):
     super(User, self).__init__(**kwargs)
     if self.role is None:
