@@ -14,6 +14,7 @@ class Config:
   MAIL_SENDER = os.environ.get('MAIL_SENDER')
   APP_ADMIN = os.environ.get('APP_ADMIN')
   APP_POSTS_PER_PAGE = os.environ.get('APP_POSTS_PER_PAGE')
+  APP_FOLLOWERS_PER_PAGE = 20
   SQLALCHEMY_TRACK_MODIFICATIONS = False
 
   @staticmethod
