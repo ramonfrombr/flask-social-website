@@ -44,3 +44,7 @@ Executes unit tests.
 
 - [ ] Implement Celery task queue to send batch emails.
 - [ ] Implement markdown support for <pre> tag
+
+## Bugs
+
+- [ ] Add timezone=True argument to db.DateTime in all models and configure timezone functionality to make the test `test_follows` pass when testing if the follow timestamp works correctly.
