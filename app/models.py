@@ -80,9 +80,9 @@ class User(UserMixin, db.Model):
   location = db.Column(db.String(64))
   about_me = db.Column(db.Text())
   member_since = db.Column(
-      db.DateTime(), default=lambda: datetime.now(timezone.utc))
+      db.DateTime, default=lambda: datetime.now(timezone.utc))
   last_seen = db.Column(
-      db.DateTime(), default=lambda: datetime.now(timezone.utc))
+      db.DateTime, default=lambda: datetime.now(timezone.utc))
   avatar_hash = db.Column(db.String(32))
   posts = db.relationship('Post', backref='author', lazy='dynamic')
   followed = db.relationship('Follow',
