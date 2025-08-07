@@ -1,7 +1,7 @@
 from flask import jsonify
 from wtforms import ValidationError
 
-from app import api_v1
+from . import api_v1
 
 
 def bad_request(message):

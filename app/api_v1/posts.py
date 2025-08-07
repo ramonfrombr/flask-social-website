@@ -1,4 +1,4 @@
-from flask import g, jsonify, request, url_for
+from flask import current_app, g, jsonify, request, url_for
 from app.api_v1.decorators import permission_required
 from app.api_v1.errors import forbidden
 from app.models import Permission, Post
@@ -8,8 +8,22 @@ from .. import db
 
 @api_v1.route('/posts/')
 def get_posts():
-  posts = Post.query.all()
-  return jsonify({'posts': [post.to_json() for post in posts]})
+  page = request.args.get('page', 1, type=int)
+  pagination = Post.query.paginate(
+      page=page, per_page=current_app.config['APP_POSTS_PER_PAGE'], error_out=False)
+  posts = pagination.items
+  prev = None
+  if pagination.has_prev:
+    prev = url_for('api_v1.get_posts', page=page - 1)
+  next = None
+  if pagination.has_next:
+    next = url_for('api_v1.get_posts', page=page + 1)
+  return jsonify({
+      'posts': [post.to_json() for post in posts],
+      'prev': prev,
+      'next': next,
+      'count': pagination.total
+  })
 
 
 @api_v1.route('/posts/<int:id>')
@@ -26,7 +40,7 @@ def new_post():
   db.session.add(post)
   db.session.commit()
   return jsonify(post.to_json()), 201, \
-      {'Location': url_for('api.get_post', id=post.id)}
+      {'Location': url_for('api_v1.get_post', id=post.id)}
 
 
 @api_v1.route('/posts/<int:id>', methods=['PUT'])
