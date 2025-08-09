@@ -40,6 +40,10 @@ Executes unit tests.
 
 `flask test`
 
+Executes unit tests with coverage report.
+
+`flask test --coverage`
+
 ## Improvements
 
 - [ ] Implement Celery task queue to send batch emails.

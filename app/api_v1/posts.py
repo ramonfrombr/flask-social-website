@@ -28,7 +28,7 @@ def get_posts():
 
 @api_v1.route('/posts/<int:id>')
 def get_post(id):
-  post = Post.query.get_or_404()
+  post = Post.query.get_or_404(id)
   return jsonify(post.to_json())
 
 
