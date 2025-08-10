@@ -3,7 +3,8 @@ import sys
 import click
 from app import create_app, db
 from app.models import Follow, Permission, Post, User, Role
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
+
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
@@ -41,3 +42,11 @@ def test(coverage):
     COV.html_report(directory=covdir)
     print('HTML version: file://%s/index.html' % covdir)
     COV.erase()
+
+
+@app.cli.command()
+def deploy():
+  """Run deployment tasks"""
+  upgrade()
+  Role.insert_roles()
+  User.add_self_follows()
